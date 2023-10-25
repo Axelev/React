@@ -23,7 +23,6 @@ const EmployeesListItem = ({name, salary, increase}) => {
                         className="btn-trash btn-sm">
                         <i className="fas fa-trash"></i>
                 </button>
-                <i className="fas fa-trash"></i>
             </div>
         </li> 
     )
