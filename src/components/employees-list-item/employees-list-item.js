@@ -6,7 +6,8 @@ class EmployeesListItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            increase : false
+            increase : false,
+            highlight: false
         }
     }
 
@@ -14,18 +15,27 @@ class EmployeesListItem extends Component {
         this.setState(({increase}) => ({increase : !increase}))
     }
 
+    highlightEmployee = () => {
+        this.setState(({highlight}) => ({highlight: !highlight}))
+    }
+
     render() {
         const {name, salary} = this.props;
-        const {increase} = this.state;
+        const {increase, highlight} = this.state;
 
         let classNames = 'list-group-item d-flex justify-content-between';
         if (increase) {
             classNames += ' increase';
         }
-              
+
+        if (highlight) {
+            classNames += ' like';
+        }
+      
         return (           
             <li className={classNames}>
-                <span className="list-group-item-label">{name}</span>
+                <span className="list-group-item-label"
+                    onClick={this.highlightEmployee}>{name}</span>
                 <input type="text"
                     className="list-group-item-input"
                     defaultValue={salary + '$'}/>
@@ -40,6 +50,7 @@ class EmployeesListItem extends Component {
                             className="btn-trash btn-sm">
                             <i className="fas fa-trash"></i>
                     </button>
+                    <i className="fas fa-star"></i>
                 </div>
             </li> 
         )
