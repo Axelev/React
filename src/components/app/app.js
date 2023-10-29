@@ -31,27 +31,43 @@ class App extends Component {
     }
 
     addItem = (name, salary) => {
-        const newItem = {
-            name,
-            salary,
-            increase: false,
-            key: this.maxKey++
-        }
 
-        this.setState(({data}) => {
-            const newArr = [...data, newItem];
-            return {
-                data: newArr
+        if (name.length < 3 || salary <= 0) {
+            alert('Name or salary is not in correct form!')
+        } else {
+            const newItem = {
+                name,
+                salary,
+                highlight: false,
+                increase: false,
+                key: this.maxKey++
             }
-        })
+    
+            this.setState(({data}) => {
+                const newArr = [...data, newItem];
+                return {
+                    data: newArr
+                }
+            })
+        }
+    }
+
+    onToggleProp = (key, prop) => {
+        this.setState(({data}) => ({
+            data: data.map(item => {
+                if (item.key === key) {
+                    return {...item, [prop]: !item[prop]}
+                }
+                return item
+            })
+        }))
     }
 
     render() {
-
-
         return (
             <div className="app">
-                <AppInfo/>
+                <AppInfo
+                    numberOfEmp={this.state.data}/>
     
                 <div className='search-panel'>
                     <SearchPanel/>
@@ -59,12 +75,12 @@ class App extends Component {
                 </div>
                 <EmployeesList 
                     data={this.state.data}
-                    onDelete={this.deleteItem}/>
+                    onDelete={this.deleteItem}
+                    onToggleProp={this.onToggleProp}/>
                 <EmployeesAddForm
                     onAdd={this.addItem}/>
             </div>
         );
-
     }
 }
 
